@@ -154,43 +154,64 @@ function getTypeName(type) {
         throw new Error("can not find type name " + type);
     }
 }
+function isSimpleType(type) {
+    return [Boolean, String, Number, Array].indexOf(type) > -1;
+}
 function typeLink(type) {
     return "<span style=\"white-space: nowrap\">[`" + getTypeName(type) + "`](#" + getTypeName(type) + ")</span>";
 }
-function typeTable(output, type) {
+function typeTable(output, type, prefix, level) {
+    if (prefix === void 0) { prefix = ''; }
+    if (level === void 0) { level = 0; }
     var typeD = typesData.get(type);
     if (typeD && typeD.props && typeD.props.size) {
-        output.push("\n| \u540D\u79F0 | \u7C7B\u578B | \u63CF\u8FF0 |\n| --- | --- | --- |");
+        if (!prefix) {
+            output.push("\n| \u540D\u79F0 | \u7C7B\u578B | \u63CF\u8FF0 |\n| --- | --- | --- |");
+        }
         typeD.props.forEach(function (v, k) {
-            output.push("| `" + v.name + "` | " + typeLink(v.type) + " | " + (v.comment || '').replace(/[\n\r]/g, '<br>') + " |");
+            if (isSimpleType(v.type) || level > 5) {
+                output.push("| `" + (prefix + v.name) + "` | " + (isSimpleType(v.type) ? "" + getTypeName(v.type) : typeLink(v.type)) + " | " + (v.comment || '').replace(/[\n\r]/g, '<br>') + " |");
+            }
+            else {
+                output.push("| `" + (prefix + v.name) + "` | " + typeLink(v.type) + " | " + (v.comment || '').replace(/[\n\r]/g, '<br>') + " |");
+                typeTable(output, v.type, prefix ? prefix + v.name + '.' : v.name + '.', level + 1);
+            }
+        });
+    }
+}
+function outputType(output, type) {
+    var v = type;
+    output.push("\n# <a id=\"" + getTypeName(v.type) + "\"></a> " + getTypeName(v.type) + "\n" + (v.router ? "`" + v.router.path + "`" : '') + "\n\n" + (v.comment || '') + "\n\n");
+    var typeD = v;
+    typeTable(output, v.type);
+    if (v.methods && v.methods.size) {
+        v.methods.forEach(function (v, k) {
+            output.push("\n## " + v.name + " `" + (v.httpMethod || "GET") + "`\n`" + (typeD.router ? (typeD.router.path || '') : '') + (v.router ? v.router.path : '') + "`\n\n" + v.comment + "\n");
+            if (v.router && v.router.type) {
+                output.push('### router');
+                typeTable(output, v.router.type);
+            }
+            v.params.forEach(function (v, i) {
+                output.push("### " + v.source + "\n" + (v.comment || '') + "\n");
+                typeTable(output, v.type);
+            });
+            if (v.returnType) {
+                output.push('### 返回');
+                typeTable(output, v.returnType);
+            }
         });
     }
 }
 function outputMarkdown(path) {
     var output = [];
+    //output service first
+    typesData.forEach(function (v, k) {
+        if (v.router)
+            outputType(output, v);
+    });
     typesData.forEach(function (v, k) {
         if (!v.router)
-            return;
-        output.push("\n# <a id=\"" + getTypeName(v.type) + "\"></a> " + getTypeName(v.type) + "\n" + (v.router ? "`" + v.router.path + "`" : '') + "\n\n" + (v.comment || '') + "\n\n");
-        var typeD = v;
-        typeTable(output, v.type);
-        if (v.methods && v.methods.size) {
-            v.methods.forEach(function (v, k) {
-                output.push("\n## " + v.name + " `" + (v.httpMethod || "GET") + "`\n`" + (typeD.router ? (typeD.router.path || '') : '') + (v.router ? v.router.path : '') + "`\n\n" + v.comment + "\n");
-                if (v.router && v.router.type) {
-                    output.push('### router');
-                    typeTable(output, v.router.type);
-                }
-                v.params.forEach(function (v, i) {
-                    output.push("### " + v.source + "\n" + (v.comment || '') + "\n");
-                    typeTable(output, v.type);
-                });
-                if (v.returnType) {
-                    output.push('### 返回');
-                    typeTable(output, v.returnType);
-                }
-            });
-        }
+            outputType(output, v);
     });
     fs.writeFileSync(path, output.join('\r\n'));
 }

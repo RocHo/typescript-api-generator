@@ -66,6 +66,44 @@ var GetCityRouter = (function () {
     ], GetCityRouter);
     return GetCityRouter;
 }());
+var CityMoreDetailInfo = (function () {
+    function CityMoreDetailInfo() {
+    }
+    __decorate([
+        meta_annotations_1.comment('x'), 
+        __metadata('design:type', Number)
+    ], CityMoreDetailInfo.prototype, "x", void 0);
+    __decorate([
+        meta_annotations_1.comment('y'), 
+        __metadata('design:type', Number)
+    ], CityMoreDetailInfo.prototype, "y", void 0);
+    CityMoreDetailInfo = __decorate([
+        meta_annotations_1.comment('更详细的信息'), 
+        __metadata('design:paramtypes', [])
+    ], CityMoreDetailInfo);
+    return CityMoreDetailInfo;
+}());
+var CityDetailInfo = (function () {
+    function CityDetailInfo() {
+    }
+    __decorate([
+        meta_annotations_1.comment('经度'), 
+        __metadata('design:type', Number)
+    ], CityDetailInfo.prototype, "la", void 0);
+    __decorate([
+        meta_annotations_1.comment('维度'), 
+        __metadata('design:type', Number)
+    ], CityDetailInfo.prototype, "lu", void 0);
+    __decorate([
+        meta_annotations_1.comment('城市更详细的信息'), 
+        __metadata('design:type', CityMoreDetailInfo)
+    ], CityDetailInfo.prototype, "cityMoreDetailInfo", void 0);
+    CityDetailInfo = __decorate([
+        meta_annotations_1.comment('城市详细信息'), 
+        __metadata('design:paramtypes', [])
+    ], CityDetailInfo);
+    return CityDetailInfo;
+}());
 var CityInfo = (function () {
     function CityInfo() {
     }
@@ -77,6 +115,10 @@ var CityInfo = (function () {
         meta_annotations_1.comment('城市名称'), 
         __metadata('design:type', String)
     ], CityInfo.prototype, "name", void 0);
+    __decorate([
+        meta_annotations_1.comment('城市详细信息'), 
+        __metadata('design:type', CityDetailInfo)
+    ], CityInfo.prototype, "detail", void 0);
     CityInfo = __decorate([
         meta_annotations_1.comment('城市信息'), 
         __metadata('design:paramtypes', [])

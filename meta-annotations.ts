@@ -196,64 +196,82 @@ function getTypeName(type : Function){
     }
 }
 
+function isSimpleType(type : Function){
+    return [Boolean,String,Number,Array].indexOf(type) > -1;
+}
+
 function typeLink(type : Function){
     return `<span style="white-space: nowrap">[\`${getTypeName(type)}\`](#${getTypeName(type)})</span>`
 }
 
-function typeTable(output : Array<string>,type : Function){
+function typeTable(output : Array<string>,type : Function,prefix : String = '' ,level : number = 0){
     let typeD = typesData.get(type);
     if(typeD && typeD.props && typeD.props.size){
-        output.push(`
+        if(!prefix){
+            output.push(`
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |`);
+        }
+
         typeD.props.forEach(function(v,k){
-            output.push(`| \`${v.name}\` | ${typeLink(v.type)} | ${(v.comment || '').replace(/[\n\r]/g,'<br>')} |`);
+            if(isSimpleType(v.type) || level > 5){
+                output.push(`| \`${prefix + v.name}\` | ${isSimpleType(v.type) ?  `${getTypeName(v.type)}` :typeLink(v.type)} | ${(v.comment || '').replace(/[\n\r]/g,'<br>')} |`);
+            }else{
+                output.push(`| \`${prefix + v.name}\` | ${typeLink(v.type)} | ${(v.comment || '').replace(/[\n\r]/g,'<br>')} |`);
+                typeTable(output,v.type, prefix ? prefix + v.name + '.' : v.name + '.',level + 1);
+            }
         });
     }
 }
 
-export function outputMarkdown(path){
-    var output : string[] = [];
-    typesData.forEach(function(v,k){
-        if(!v.router) return;
-
-        output.push(
-`
+function outputType(output : string[], type : TypeDefinition){
+    let v = type;
+    output.push(
+        `
 # <a id="${getTypeName(v.type)}"></a> ${getTypeName(v.type)}
 ${v.router ? "`" + v.router.path + "`" :''}
 
 ${v.comment || ''}
 
 `);
-        var typeD = v;
-        typeTable(output,v.type);
+    var typeD = v;
+    typeTable(output,v.type);
 
-        if(v.methods && v.methods.size){
-            v.methods.forEach(function(v,k){
-                output.push(`
+    if(v.methods && v.methods.size){
+        v.methods.forEach(function(v,k){
+            output.push(`
 ## ${v.name} \`${v.httpMethod || "GET"}\`
 \`${typeD.router ? (typeD.router.path || '') : ''}${v.router ? v.router.path : ''}\`
 
 ${v.comment}
 `);
-                if(v.router && v.router.type){
-                    output.push('### router');
-                    typeTable(output,v.router.type);
-                }
-                v.params.forEach(function(v,i){
-                    output.push(`### ${v.source}
+            if(v.router && v.router.type){
+                output.push('### router');
+                typeTable(output,v.router.type);
+            }
+            v.params.forEach(function(v,i){
+                output.push(`### ${v.source}
 ${v.comment || ''}
 `);
-                    typeTable(output,v.type);
-                });
-
-                if(v.returnType){
-                    output.push('### 返回');
-                    typeTable(output,v.returnType);
-                }
+                typeTable(output,v.type);
             });
-        }
 
+            if(v.returnType){
+                output.push('### 返回');
+                typeTable(output,v.returnType);
+            }
+        });
+    }
+}
+
+export function outputMarkdown(path){
+    var output : string[] = [];
+    //output service first
+    typesData.forEach(function(v,k){
+        if(v.router) outputType(output,v);
+    });
+    typesData.forEach(function(v,k){
+        if(!v.router) outputType(output,v);
     });
 
     fs.writeFileSync(path,output.join('\r\n'));

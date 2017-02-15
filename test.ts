@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { comment, router,query, method, body , post, get , outputMarkdown } from './meta-annotations';
+import { comment, method , router,query, body , post, get , outputMarkdown } from './meta-annotations';
 
 @comment()
 class FindAddressQuery{
@@ -28,12 +28,35 @@ class GetCityRouter{
     id : number;
 }
 
+@comment('更详细的信息')
+class CityMoreDetailInfo{
+    @comment('x')
+    x : number;
+    @comment('y')
+    y : number;
+}
+
+@comment('城市详细信息')
+class CityDetailInfo{
+    @comment('经度')
+    la : number;
+    @comment('维度')
+    lu : number;
+
+    @comment('城市更详细的信息')
+    // @Reflect.metadata('design:type',CityMoreDetailInfo)
+    cityMoreDetailInfo : CityMoreDetailInfo;
+}
+
 @comment('城市信息')
 class CityInfo{
     @comment('城市id')
     id : number;
     @comment('城市名称')
     name : string;
+
+    @comment('城市详细信息')
+    detail : CityDetailInfo;
 }
 
 @comment('更新城市参数')
