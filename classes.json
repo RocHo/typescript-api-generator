@@ -1,0 +1,122 @@
+[
+    {
+        "name": "CallingService",
+        "documentation": "调用服务注释",
+        "type": "typeof CallingService",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "CallingService",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "FindAddressQuery",
+        "documentation": "",
+        "type": "typeof FindAddressQuery",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "FindAddressQuery",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "AddressDetailInfo",
+        "documentation": "",
+        "type": "typeof AddressDetailInfo",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "AddressDetailInfo",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "AddressDetailInfos",
+        "documentation": "",
+        "type": "typeof AddressDetailInfos",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "AddressDetailInfos",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "GetCityRouter",
+        "documentation": "",
+        "type": "typeof GetCityRouter",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "GetCityRouter",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "CityMoreDetailInfo",
+        "documentation": "",
+        "type": "typeof CityMoreDetailInfo",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "CityMoreDetailInfo",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "CityDetailInfo",
+        "documentation": "",
+        "type": "typeof CityDetailInfo",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "CityDetailInfo",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "CityInfo",
+        "documentation": "",
+        "type": "typeof CityInfo",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "CityInfo",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "UpdateCityRouter",
+        "documentation": "",
+        "type": "typeof UpdateCityRouter",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "UpdateCityRouter",
+                "documentation": ""
+            }
+        ]
+    },
+    {
+        "name": "AddressService",
+        "documentation": "",
+        "type": "typeof AddressService",
+        "constructors": [
+            {
+                "parameters": [],
+                "returnType": "AddressService",
+                "documentation": ""
+            }
+        ]
+    }
+]

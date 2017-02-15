@@ -37,6 +37,12 @@ outputMarkdown("api.md");
 tsc --target ES5 --experimentalDecorators --emitDecoratorMetadata YOUR-API-FILE.ts
 ```
 
+使用node执行tsc转换后的js文件
+
+```bash
+node YOUR-API-FILE.js
+```
+
 ## 标注解释
 
 ### `@comment( content : string)`
