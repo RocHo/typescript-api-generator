@@ -12,7 +12,8 @@ interface TypeDefinition{
 interface PropDefinition{
     name : string;
     comment : string;
-    type : Function
+    type : Function;
+    elementType : Function;
 }
 
 interface MethodDefinition{
@@ -20,7 +21,7 @@ interface MethodDefinition{
     router: {path: String, type: Function};
     name : string;
     comment : string;
-    params : ParamDefinition[]
+    params : ParamDefinition[];
     returnType : Function;
 }
 
@@ -90,7 +91,8 @@ function createMetaHandler(handlers : {
 
                 var pd = getOrCreate(typeD.props,propertyKey,()=>({
                         name :propertyKey,
-                        type : Reflect.getMetadata("design:type", target, propertyKey)
+                        type : Reflect.getMetadata("design:type", target, propertyKey),
+                        elementType : Reflect.getMetadata("design:elementtype",target,propertyKey)
                 }));
 
                 handlers.handleProp(pd,typeD);
@@ -181,15 +183,19 @@ export function body(){
     })
 }
 
+export function array(type :Function){
+    return Reflect.metadata("design:elementtype",type);
+}
+
 export function getMetadatas(){
     return typesData;
 }
 
-function getTypeName(type : Function){
+function getTypeName(type : Function,et? : Function){
     if(!type) return 'EMPTY TYPE';
-    var r = type.toString().match(/function (\w+)/);
+    var r = (et || type).toString().match(/function (\w+)/);
     if(r){
-        return r[1];
+        return et && type === Array ? `Array<${r[1]}>`  : r[1];
     }
     else{
         throw new Error(`can not find type name ${type}`);
@@ -197,11 +203,12 @@ function getTypeName(type : Function){
 }
 
 function isSimpleType(type : Function){
-    return [Boolean,String,Number,Array].indexOf(type) > -1;
+    return [Boolean,String,Number].indexOf(type) > -1;
 }
 
-function typeLink(type : Function){
-    return `<span style="white-space: nowrap">[\`${getTypeName(type)}\`](#${getTypeName(type)})</span>`
+function typeLink(type : Function ,et : Function){
+    let tn = getTypeName(type,et);
+    return `<span style="white-space: nowrap">[\`${tn}\`](#${getTypeName(et || type)})</span>`
 }
 
 function typeTable(output : Array<string>,type : Function,prefix : String = '' ,level : number = 0){
@@ -215,10 +222,10 @@ function typeTable(output : Array<string>,type : Function,prefix : String = '' ,
 
         typeD.props.forEach(function(v,k){
             if(isSimpleType(v.type) || level > 5){
-                output.push(`| \`${prefix + v.name}\` | ${isSimpleType(v.type) ?  `${getTypeName(v.type)}` :typeLink(v.type)} | ${(v.comment || '').replace(/[\n\r]/g,'<br>')} |`);
+                output.push(`| \`${prefix + v.name}\` | \`${getTypeName(v.type)}\` | ${(v.comment || '').replace(/[\n\r]/g,'<br>')} |`);
             }else{
-                output.push(`| \`${prefix + v.name}\` | ${typeLink(v.type)} | ${(v.comment || '').replace(/[\n\r]/g,'<br>')} |`);
-                typeTable(output,v.type, prefix ? prefix + v.name + '.' : v.name + '.',level + 1);
+                output.push(`| \`${prefix + v.name}\` | ${typeLink(v.type,v.elementType)} | ${(v.comment || '').replace(/[\n\r]/g,'<br>')} |`);
+                typeTable(output,v.elementType || v.type, prefix ? prefix + v.name + '.' : v.name + '.',level + 1);
             }
         });
     }

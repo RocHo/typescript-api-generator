@@ -44,7 +44,7 @@ var AddressDetailInfos = (function () {
     }
     __decorate([
         meta_annotations_1.comment("\u7CBE\u786E\u5730\u5740\n    \u6A21\u7CCA\u67E5\u8BE2\u8FD4\u56DE\u7684\u7CBE\u786E\u5730\u5740\u9009\u9879\uFF0C\u63D0\u4F9B\u7ED9\u524D\u53F0\u4E0B\u62C9\u53EF\u9009\u9879\n"),
-        Reflect.metadata('design:elementtype', AddressDetailInfo), 
+        meta_annotations_1.array(AddressDetailInfo), 
         __metadata('design:type', Array)
     ], AddressDetailInfos.prototype, "detailAddresses", void 0);
     AddressDetailInfos = __decorate([
@@ -95,8 +95,9 @@ var CityDetailInfo = (function () {
         __metadata('design:type', Number)
     ], CityDetailInfo.prototype, "lu", void 0);
     __decorate([
-        meta_annotations_1.comment('城市更详细的信息'), 
-        __metadata('design:type', CityMoreDetailInfo)
+        meta_annotations_1.comment('城市更详细的信息'),
+        meta_annotations_1.array(CityMoreDetailInfo), 
+        __metadata('design:type', Array)
     ], CityDetailInfo.prototype, "cityMoreDetailInfo", void 0);
     CityDetailInfo = __decorate([
         meta_annotations_1.comment('城市详细信息'), 

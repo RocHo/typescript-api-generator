@@ -19,7 +19,7 @@ npm install reflect-metadata
 
 ```javascript
 import "reflect-metadata";
-import { comment, method , router, query, body , post, get , outputMarkdown } from './meta-annotations';
+import { comment, method ,array , router, query, body , post, get , outputMarkdown } from './meta-annotations';
 
 //此处放API定义，或者import其他文件
 //import './otherApi';
@@ -55,14 +55,15 @@ class AddressService{
 }
 ```
 ---
-###`method( m : string) post() get()`
+### `@array( type : Function)`
 
-用于标注当前方法所代表的API使用的http method。定义在方法上。`post()`和`get()`是`method('POST')`的快捷方法。
+由于TypeScript的限制，如果定义数组类型，**必须**添加此标注。传入数组元素的类型。
 
 ```javascript
-@post()
-updateCity(cityInfo : CityInfo) {};
+@array(AddressDetailInfo)
+detailAddresses : AddressDetailInfo[];
 ```
+
 ---
 ### `router( path : string , model? : Function)`
 
@@ -78,6 +79,15 @@ class AddressService{
 class GetCityRouter{
     id : number;
 }
+```
+---
+###`method( m : string) post() get()`
+
+用于标注当前方法所代表的API使用的http method。定义在方法上。`post()`和`get()`是`method('POST')`的快捷方法。
+
+```javascript
+@post()
+updateCity(cityInfo : CityInfo) {};
 ```
 ---
 
@@ -128,74 +138,4 @@ class ParentModel{
 - 由于TypeScript标注类库限制，属性或方法的类型引用**必须**在之前定义，否则**相关的类型引用是**`undefined`，不会有输出。
 
 如上方示例，`SubModel`如果放在`ParentModel`之后，则`ParentModel`的`subProp`的元数据type会是undefined。
-
-
-## API定义示例
-
-```javascript
-import "reflect-metadata";
-import { comment, router,query, method, body , post, get } from './meta-annotations';
-
-
-@comment()
-class FindAddressQuery{
-    @comment('用户输入的模糊地址信息')
-    address : string;
-}
-
-@comment('单条精确的地址信息')
-class AddressDetailInfo{
-    @comment('精确地址')
-    address : string;
-}
-
-@comment()
-class AddressDetailInfos{
-    @comment(`精确地址
-    模糊查询返回的精确地址选项，提供给前台下拉可选项
-`)
-    detailAddresses : AddressDetailInfo[];
-}
-
-@comment()
-class GetCityRouter{
-    @comment('城市名称')
-    id : number;
-}
-
-@comment('城市信息')
-class CityInfo{
-    @comment('城市id')
-    id : number;
-    @comment('城市名称')
-    name : string;
-}
-
-@comment('更新城市参数')
-class UpdateCityRouter{
-    @comment('城市id')
-    id : number;
-}
-
-@router("api/service/address")
-@comment(`公共地址服务
-提供寄送地址查询服务
-`)
-class AddressService{
-    @comment(`查询更准确的地址`)
-    @router('/findAddress')
-    @method('GET')
-    findAddress(@query() query: FindAddressQuery) : AddressDetailInfos { return null;};
-
-    @router('/get-city/:id',GetCityRouter)
-    @comment('查询城市信息')
-    @get()
-    getCity() : CityInfo {return null;};
-
-    @comment('更新城市')
-    @router('/update-city/:id',UpdateCityRouter)
-    @post()
-    updateCity(@body() cityInfo : CityInfo) {};
-}
-```
 

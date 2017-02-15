@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { comment, method , router,query, body , post, get , outputMarkdown } from './meta-annotations';
+import { comment,array, method , router,query, body , post, get , outputMarkdown } from './meta-annotations';
 
 @comment()
 class FindAddressQuery{
@@ -18,7 +18,7 @@ class AddressDetailInfos{
     @comment(`精确地址
     模糊查询返回的精确地址选项，提供给前台下拉可选项
 `)
-    @Reflect.metadata('design:elementtype',AddressDetailInfo)
+    @array(AddressDetailInfo)
     detailAddresses : AddressDetailInfo[];
 }
 
@@ -44,8 +44,8 @@ class CityDetailInfo{
     lu : number;
 
     @comment('城市更详细的信息')
-    // @Reflect.metadata('design:type',CityMoreDetailInfo)
-    cityMoreDetailInfo : CityMoreDetailInfo;
+    @array(CityMoreDetailInfo)
+    cityMoreDetailInfo : CityMoreDetailInfo[];
 }
 
 @comment('城市信息')

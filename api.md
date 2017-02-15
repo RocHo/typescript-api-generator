@@ -19,12 +19,13 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `address` | String | 用户输入的模糊地址信息 |
+| `address` | `String` | 用户输入的模糊地址信息 |
 ### 返回
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `detailAddresses` | Array | 精确地址<br>    模糊查询返回的精确地址选项，提供给前台下拉可选项<br> |
+| `detailAddresses` | <span style="white-space: nowrap">[`Array<AddressDetailInfo>`](#AddressDetailInfo)</span> | 精确地址<br>    模糊查询返回的精确地址选项，提供给前台下拉可选项<br> |
+| `detailAddresses.address` | `String` | 精确地址 |
 
 ## getCity `GET`
 `api/service/address/get-city/:id`
@@ -35,19 +36,19 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `id` | Number | 城市名称 |
+| `id` | `Number` | 城市名称 |
 ### 返回
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `id` | Number | 城市id |
-| `name` | String | 城市名称 |
+| `id` | `Number` | 城市id |
+| `name` | `String` | 城市名称 |
 | `detail` | <span style="white-space: nowrap">[`CityDetailInfo`](#CityDetailInfo)</span> | 城市详细信息 |
-| `detail.la` | Number | 经度 |
-| `detail.lu` | Number | 维度 |
-| `detail.cityMoreDetailInfo` | <span style="white-space: nowrap">[`CityMoreDetailInfo`](#CityMoreDetailInfo)</span> | 城市更详细的信息 |
-| `detail.cityMoreDetailInfo.x` | Number | x |
-| `detail.cityMoreDetailInfo.y` | Number | y |
+| `detail.la` | `Number` | 经度 |
+| `detail.lu` | `Number` | 维度 |
+| `detail.cityMoreDetailInfo` | <span style="white-space: nowrap">[`Array<CityMoreDetailInfo>`](#CityMoreDetailInfo)</span> | 城市更详细的信息 |
+| `detail.cityMoreDetailInfo.x` | `Number` | x |
+| `detail.cityMoreDetailInfo.y` | `Number` | y |
 
 ## updateCity `POST`
 `api/service/address/update-city/:id`
@@ -58,21 +59,21 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `id` | Number | 城市id |
+| `id` | `Number` | 城市id |
 ### body
 
 
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `id` | Number | 城市id |
-| `name` | String | 城市名称 |
+| `id` | `Number` | 城市id |
+| `name` | `String` | 城市名称 |
 | `detail` | <span style="white-space: nowrap">[`CityDetailInfo`](#CityDetailInfo)</span> | 城市详细信息 |
-| `detail.la` | Number | 经度 |
-| `detail.lu` | Number | 维度 |
-| `detail.cityMoreDetailInfo` | <span style="white-space: nowrap">[`CityMoreDetailInfo`](#CityMoreDetailInfo)</span> | 城市更详细的信息 |
-| `detail.cityMoreDetailInfo.x` | Number | x |
-| `detail.cityMoreDetailInfo.y` | Number | y |
+| `detail.la` | `Number` | 经度 |
+| `detail.lu` | `Number` | 维度 |
+| `detail.cityMoreDetailInfo` | <span style="white-space: nowrap">[`Array<CityMoreDetailInfo>`](#CityMoreDetailInfo)</span> | 城市更详细的信息 |
+| `detail.cityMoreDetailInfo.x` | `Number` | x |
+| `detail.cityMoreDetailInfo.y` | `Number` | y |
 
 # <a id="FindAddressQuery"></a> FindAddressQuery
 
@@ -83,7 +84,7 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `address` | String | 用户输入的模糊地址信息 |
+| `address` | `String` | 用户输入的模糊地址信息 |
 
 # <a id="AddressDetailInfo"></a> AddressDetailInfo
 
@@ -94,7 +95,7 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `address` | String | 精确地址 |
+| `address` | `String` | 精确地址 |
 
 # <a id="AddressDetailInfos"></a> AddressDetailInfos
 
@@ -105,7 +106,8 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `detailAddresses` | Array | 精确地址<br>    模糊查询返回的精确地址选项，提供给前台下拉可选项<br> |
+| `detailAddresses` | <span style="white-space: nowrap">[`Array<AddressDetailInfo>`](#AddressDetailInfo)</span> | 精确地址<br>    模糊查询返回的精确地址选项，提供给前台下拉可选项<br> |
+| `detailAddresses.address` | `String` | 精确地址 |
 
 # <a id="GetCityRouter"></a> GetCityRouter
 
@@ -116,7 +118,7 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `id` | Number | 城市名称 |
+| `id` | `Number` | 城市名称 |
 
 # <a id="CityMoreDetailInfo"></a> CityMoreDetailInfo
 
@@ -127,8 +129,8 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `x` | Number | x |
-| `y` | Number | y |
+| `x` | `Number` | x |
+| `y` | `Number` | y |
 
 # <a id="CityDetailInfo"></a> CityDetailInfo
 
@@ -139,11 +141,11 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `la` | Number | 经度 |
-| `lu` | Number | 维度 |
-| `cityMoreDetailInfo` | <span style="white-space: nowrap">[`CityMoreDetailInfo`](#CityMoreDetailInfo)</span> | 城市更详细的信息 |
-| `cityMoreDetailInfo.x` | Number | x |
-| `cityMoreDetailInfo.y` | Number | y |
+| `la` | `Number` | 经度 |
+| `lu` | `Number` | 维度 |
+| `cityMoreDetailInfo` | <span style="white-space: nowrap">[`Array<CityMoreDetailInfo>`](#CityMoreDetailInfo)</span> | 城市更详细的信息 |
+| `cityMoreDetailInfo.x` | `Number` | x |
+| `cityMoreDetailInfo.y` | `Number` | y |
 
 # <a id="CityInfo"></a> CityInfo
 
@@ -154,14 +156,14 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `id` | Number | 城市id |
-| `name` | String | 城市名称 |
+| `id` | `Number` | 城市id |
+| `name` | `String` | 城市名称 |
 | `detail` | <span style="white-space: nowrap">[`CityDetailInfo`](#CityDetailInfo)</span> | 城市详细信息 |
-| `detail.la` | Number | 经度 |
-| `detail.lu` | Number | 维度 |
-| `detail.cityMoreDetailInfo` | <span style="white-space: nowrap">[`CityMoreDetailInfo`](#CityMoreDetailInfo)</span> | 城市更详细的信息 |
-| `detail.cityMoreDetailInfo.x` | Number | x |
-| `detail.cityMoreDetailInfo.y` | Number | y |
+| `detail.la` | `Number` | 经度 |
+| `detail.lu` | `Number` | 维度 |
+| `detail.cityMoreDetailInfo` | <span style="white-space: nowrap">[`Array<CityMoreDetailInfo>`](#CityMoreDetailInfo)</span> | 城市更详细的信息 |
+| `detail.cityMoreDetailInfo.x` | `Number` | x |
+| `detail.cityMoreDetailInfo.y` | `Number` | y |
 
 # <a id="UpdateCityRouter"></a> UpdateCityRouter
 
@@ -172,4 +174,4 @@
 
 | 名称 | 类型 | 描述 |
 | --- | --- | --- |
-| `id` | Number | 城市id |
+| `id` | `Number` | 城市id |
