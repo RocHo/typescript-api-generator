@@ -13,11 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 require("reflect-metadata");
 var meta_annotations_1 = require('./meta-annotations');
-function log(target, key) {
-    console.log("XXX " + Reflect.getMetadata("design:type", target, key));
-    console.log("XXX " + Reflect.getMetadata("design:returntype", target, key));
-    console.log("XXX " + Reflect.getMetadata("design:paramtypes", target, key));
-}
 var FindAddressQuery = (function () {
     function FindAddressQuery() {
     }
@@ -111,7 +106,6 @@ var AddressService = (function () {
     AddressService.prototype.updateCity = function (cityInfo) { };
     ;
     __decorate([
-        log,
         meta_annotations_1.comment("\u67E5\u8BE2\u66F4\u51C6\u786E\u7684\u5730\u5740"),
         meta_annotations_1.router('/findAddress'),
         meta_annotations_1.method('GET'),

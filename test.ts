@@ -1,13 +1,6 @@
 import "reflect-metadata";
 import { comment, router,query, method, body , post, get , outputMarkdown } from './meta-annotations';
 
-function log(target,key){
-    console.log(`XXX ${Reflect.getMetadata("design:type", target, key)}`);
-    console.log(`XXX ${Reflect.getMetadata("design:returntype", target, key)}`);
-    console.log(`XXX ${Reflect.getMetadata("design:paramtypes", target, key)}`);
-}
-
-
 @comment()
 class FindAddressQuery{
     @comment('用户输入的模糊地址信息')
@@ -55,7 +48,6 @@ class UpdateCityRouter{
 提供寄送地址查询服务
 `)
 class AddressService{
-    @log
     @comment(`查询更准确的地址`)
     @router('/findAddress')
     @method('GET')

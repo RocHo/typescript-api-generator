@@ -1,4 +1,6 @@
 import "reflect-metadata";
+import fs = require('fs');
+
 interface TypeDefinition{
     router: {path: String, type: Function};
     comment : string;
@@ -87,6 +89,7 @@ function createMetaHandler(handlers : {
                 // prop
 
                 var pd = getOrCreate(typeD.props,propertyKey,()=>({
+                        name :propertyKey,
                         type : Reflect.getMetadata("design:type", target, propertyKey)
                 }));
 
@@ -98,7 +101,7 @@ function createMetaHandler(handlers : {
                 if(!methodD.params[index]){
                     methodD.params[index] = {
                         method : methodD,
-                        // type : Reflect.getMetadata("design:paramtypes", target, propertyKey)[index]
+                        type : Reflect.getMetadata("design:paramtypes", target, propertyKey)[index]
                     };
                 }
                 handlers.handleParam(methodD.params[index],methodD,typeD);
@@ -182,34 +185,76 @@ export function getMetadatas(){
     return typesData;
 }
 
-export function outputMarkdown(){
-    getMetadatas().forEach(function(v,k){
-        console.log();
-        console.log("Type %s",k);
-        console.log("Comment %s",v.comment);
-        console.log();
+function getTypeName(type : Function){
+    if(!type) return 'EMPTY TYPE';
+    var r = type.toString().match(/function (\w+)/);
+    if(r){
+        return r[1];
+    }
+    else{
+        throw new Error(`can not find type name ${type}`);
+    }
+}
 
-        console.log("properties");
-        v.props.forEach(function(v,k){
-            console.log('name %s',k);
-            console.log('comment %s',v.comment);
-            console.log('type %s',v.type);
+function typeLink(type : Function){
+    return `<span style="white-space: nowrap">[\`${getTypeName(type)}\`](#${getTypeName(type)})</span>`
+}
+
+function typeTable(output : Array<string>,type : Function){
+    let typeD = typesData.get(type);
+    if(typeD && typeD.props && typeD.props.size){
+        output.push(`
+| 名称 | 类型 | 描述 |
+| --- | --- | --- |`);
+        typeD.props.forEach(function(v,k){
+            output.push(`| \`${v.name}\` | ${typeLink(v.type)} | ${(v.comment || '').replace(/[\n\r]/g,'<br>')} |`);
         });
-        console.log();
+    }
+}
 
-        console.log("methods");
-        v.methods.forEach(function(v,k){
-            console.log("name %s",k);
-            console.log('comment %s',v.comment);
-            console.log("return type %s",v.returnType);
-            v.params.forEach(function(v,i){
-                console.log('index %d',i);
-                console.log('comment %s',v.comment);
-                console.log('type %s',v.type);
+export function outputMarkdown(path){
+    var output : string[] = [];
+    typesData.forEach(function(v,k){
+        if(!v.router) return;
+
+        output.push(
+`
+# <a id="${getTypeName(v.type)}"></a> ${getTypeName(v.type)}
+${v.router ? "`" + v.router.path + "`" :''}
+
+${v.comment || ''}
+
+`);
+        var typeD = v;
+        typeTable(output,v.type);
+
+        if(v.methods && v.methods.size){
+            v.methods.forEach(function(v,k){
+                output.push(`
+## ${v.name} \`${v.httpMethod || "GET"}\`
+\`${typeD.router ? (typeD.router.path || '') : ''}${v.router ? v.router.path : ''}\`
+
+${v.comment}
+`);
+                if(v.router && v.router.type){
+                    output.push('### router');
+                    typeTable(output,v.router.type);
+                }
+                v.params.forEach(function(v,i){
+                    output.push(`### ${v.source}
+${v.comment || ''}
+`);
+                    typeTable(output,v.type);
+                });
+
+                if(v.returnType){
+                    output.push('### 返回');
+                    typeTable(output,v.returnType);
+                }
             });
-            console.log('');
-        });
+        }
 
-        console.log();
     });
+
+    fs.writeFileSync(path,output.join('\r\n'));
 }

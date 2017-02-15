@@ -1,5 +1,6 @@
 "use strict";
 require("reflect-metadata");
+var fs = require('fs');
 var typesData = new Map();
 function getOrCreate(map, key, creator) {
     if (map.has(key)) {
@@ -48,6 +49,7 @@ function createMetaHandler(handlers) {
             if (index === undefined) {
                 // prop
                 var pd = getOrCreate(typeD.props, propertyKey, function () { return ({
+                    name: propertyKey,
                     type: Reflect.getMetadata("design:type", target, propertyKey)
                 }); });
                 handlers.handleProp(pd, typeD);
@@ -58,6 +60,7 @@ function createMetaHandler(handlers) {
                 if (!methodD.params[index]) {
                     methodD.params[index] = {
                         method: methodD,
+                        type: Reflect.getMetadata("design:paramtypes", target, propertyKey)[index]
                     };
                 }
                 handlers.handleParam(methodD.params[index], methodD, typeD);
@@ -140,33 +143,56 @@ function getMetadatas() {
     return typesData;
 }
 exports.getMetadatas = getMetadatas;
-function outputMarkdown() {
-    getMetadatas().forEach(function (v, k) {
-        console.log();
-        console.log("Type %s", k);
-        console.log("Comment %s", v.comment);
-        console.log();
-        console.log("properties");
-        v.props.forEach(function (v, k) {
-            console.log('name %s', k);
-            console.log('comment %s', v.comment);
-            console.log('type %s', v.type);
+function getTypeName(type) {
+    if (!type)
+        return 'EMPTY TYPE';
+    var r = type.toString().match(/function (\w+)/);
+    if (r) {
+        return r[1];
+    }
+    else {
+        throw new Error("can not find type name " + type);
+    }
+}
+function typeLink(type) {
+    return "<span style=\"white-space: nowrap\">[`" + getTypeName(type) + "`](#" + getTypeName(type) + ")</span>";
+}
+function typeTable(output, type) {
+    var typeD = typesData.get(type);
+    if (typeD && typeD.props && typeD.props.size) {
+        output.push("\n| \u540D\u79F0 | \u7C7B\u578B | \u63CF\u8FF0 |\n| --- | --- | --- |");
+        typeD.props.forEach(function (v, k) {
+            output.push("| `" + v.name + "` | " + typeLink(v.type) + " | " + (v.comment || '').replace(/[\n\r]/g, '<br>') + " |");
         });
-        console.log();
-        console.log("methods");
-        v.methods.forEach(function (v, k) {
-            console.log("name %s", k);
-            console.log('comment %s', v.comment);
-            console.log("return type %s", v.returnType);
-            v.params.forEach(function (v, i) {
-                console.log('index %d', i);
-                console.log('comment %s', v.comment);
-                console.log('type %s', v.type);
+    }
+}
+function outputMarkdown(path) {
+    var output = [];
+    typesData.forEach(function (v, k) {
+        if (!v.router)
+            return;
+        output.push("\n# <a id=\"" + getTypeName(v.type) + "\"></a> " + getTypeName(v.type) + "\n" + (v.router ? "`" + v.router.path + "`" : '') + "\n\n" + (v.comment || '') + "\n\n");
+        var typeD = v;
+        typeTable(output, v.type);
+        if (v.methods && v.methods.size) {
+            v.methods.forEach(function (v, k) {
+                output.push("\n## " + v.name + " `" + (v.httpMethod || "GET") + "`\n`" + (typeD.router ? (typeD.router.path || '') : '') + (v.router ? v.router.path : '') + "`\n\n" + v.comment + "\n");
+                if (v.router && v.router.type) {
+                    output.push('### router');
+                    typeTable(output, v.router.type);
+                }
+                v.params.forEach(function (v, i) {
+                    output.push("### " + v.source + "\n" + (v.comment || '') + "\n");
+                    typeTable(output, v.type);
+                });
+                if (v.returnType) {
+                    output.push('### 返回');
+                    typeTable(output, v.returnType);
+                }
             });
-            console.log('');
-        });
-        console.log();
+        }
     });
+    fs.writeFileSync(path, output.join('\r\n'));
 }
 exports.outputMarkdown = outputMarkdown;
 //# sourceMappingURL=meta-annotations.js.map
