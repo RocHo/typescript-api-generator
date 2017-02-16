@@ -1,165 +1,96 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var meta_annotations_1 = require('./meta-annotations');
 /**
- * 调用服务注释
+ * 电话短信服务
  */
 var CallingService = (function () {
     function CallingService() {
     }
-    CallingService.prototype.callFunc = function (query) { return null; };
+    /**
+     * 发送短信息请求
+     *
+     * 定义方法的注释，可以写多行，但是截止到结尾，或第一个jsdoc的tag之前
+     * 此注释必须写在方法的decorators之前，否则将无法获取到
+     *
+     * @router('/sendSms/:name') 这是另一种定义decorator的方式，但现在还未完成支持
+     *
+     * 这里的注释不会被采集到
+     *
+     * @param req 短信内容请求定义
+     * 参数注释也可以写多行，截止到下一个jsdoc的tag之前
+     *
+     * @returns {null} 关于返回值的注释
+     *
+     */
+    CallingService.prototype.sendSms = function (/**
+                 * 请求参数的内联注释，会合并到前面param的注释里
+                 *
+                 * 支持内联匿名类，可以包含任意层级参数
+                 */ req) { return null; };
     ;
     __decorate([
-        meta_annotations_1.get()
-    ], CallingService.prototype, "callFunc");
+        meta_annotations_1.router('/sendSms/:name', UserModel),
+        /**
+                 * 请求参数的内联注释，会合并到前面param的注释里
+                 *
+                 * 支持内联匿名类，可以包含任意层级参数
+                 */ __param(0, meta_annotations_1.body), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object]), 
+        __metadata('design:returntype', SendSmsResult)
+    ], CallingService.prototype, "sendSms", null);
     CallingService = __decorate([
-        meta_annotations_1.router("api/service/")
+        meta_annotations_1.router("api/service/calling"), 
+        __metadata('design:paramtypes', [])
     ], CallingService);
     return CallingService;
 }());
-var FindAddressQuery = (function () {
-    function FindAddressQuery() {
+/**
+ * 类型的定义可以不按照顺序来
+ */
+var SmsContent = (function () {
+    function SmsContent() {
     }
-    __decorate([
-        meta_annotations_1.comment('用户输入的模糊地址信息')
-    ], FindAddressQuery.prototype, "address");
-    FindAddressQuery = __decorate([
-        meta_annotations_1.comment()
-    ], FindAddressQuery);
-    return FindAddressQuery;
+    return SmsContent;
 }());
-var AddressDetailInfo = (function () {
-    function AddressDetailInfo() {
+/**
+ * 可以通过extends关键字进行继承
+ */
+var SendSmsResult = (function (_super) {
+    __extends(SendSmsResult, _super);
+    function SendSmsResult() {
+        _super.apply(this, arguments);
     }
-    __decorate([
-        meta_annotations_1.comment('精确地址')
-    ], AddressDetailInfo.prototype, "address");
-    AddressDetailInfo = __decorate([
-        meta_annotations_1.comment('单条精确的地址信息')
-    ], AddressDetailInfo);
-    return AddressDetailInfo;
+    return SendSmsResult;
+}(BaseResult));
+/**
+ * 通用请求结果
+ */
+var BaseResult = (function () {
+    function BaseResult() {
+    }
+    return BaseResult;
 }());
-var AddressDetailInfos = (function () {
-    function AddressDetailInfos() {
+var UserModel = (function () {
+    function UserModel() {
     }
-    __decorate([
-        meta_annotations_1.comment("\u7CBE\u786E\u5730\u5740\n    \u6A21\u7CCA\u67E5\u8BE2\u8FD4\u56DE\u7684\u7CBE\u786E\u5730\u5740\u9009\u9879\uFF0C\u63D0\u4F9B\u7ED9\u524D\u53F0\u4E0B\u62C9\u53EF\u9009\u9879\n"),
-        meta_annotations_1.array(AddressDetailInfo)
-    ], AddressDetailInfos.prototype, "detailAddresses");
-    AddressDetailInfos = __decorate([
-        meta_annotations_1.comment()
-    ], AddressDetailInfos);
-    return AddressDetailInfos;
-}());
-var GetCityRouter = (function () {
-    function GetCityRouter() {
-    }
-    __decorate([
-        meta_annotations_1.comment('城市名称')
-    ], GetCityRouter.prototype, "id");
-    GetCityRouter = __decorate([
-        meta_annotations_1.comment()
-    ], GetCityRouter);
-    return GetCityRouter;
-}());
-var CityMoreDetailInfo = (function () {
-    function CityMoreDetailInfo() {
-    }
-    __decorate([
-        meta_annotations_1.comment('x')
-    ], CityMoreDetailInfo.prototype, "x");
-    __decorate([
-        meta_annotations_1.comment('y')
-    ], CityMoreDetailInfo.prototype, "y");
-    CityMoreDetailInfo = __decorate([
-        meta_annotations_1.comment('更详细的信息')
-    ], CityMoreDetailInfo);
-    return CityMoreDetailInfo;
-}());
-var CityDetailInfo = (function () {
-    function CityDetailInfo() {
-    }
-    __decorate([
-        meta_annotations_1.comment('经度')
-    ], CityDetailInfo.prototype, "la");
-    __decorate([
-        meta_annotations_1.comment('维度')
-    ], CityDetailInfo.prototype, "lu");
-    __decorate([
-        meta_annotations_1.comment('城市更详细的信息'),
-        meta_annotations_1.array(CityMoreDetailInfo)
-    ], CityDetailInfo.prototype, "cityMoreDetailInfo");
-    CityDetailInfo = __decorate([
-        meta_annotations_1.comment('城市详细信息')
-    ], CityDetailInfo);
-    return CityDetailInfo;
-}());
-var CityInfo = (function () {
-    function CityInfo() {
-    }
-    __decorate([
-        meta_annotations_1.comment('城市id')
-    ], CityInfo.prototype, "id");
-    __decorate([
-        meta_annotations_1.comment('城市名称')
-    ], CityInfo.prototype, "name");
-    __decorate([
-        meta_annotations_1.comment('城市详细信息')
-    ], CityInfo.prototype, "detail");
-    CityInfo = __decorate([
-        meta_annotations_1.comment('城市信息')
-    ], CityInfo);
-    return CityInfo;
-}());
-var UpdateCityRouter = (function () {
-    function UpdateCityRouter() {
-    }
-    __decorate([
-        meta_annotations_1.comment('城市id')
-    ], UpdateCityRouter.prototype, "id");
-    UpdateCityRouter = __decorate([
-        meta_annotations_1.comment('更新城市参数')
-    ], UpdateCityRouter);
-    return UpdateCityRouter;
-}());
-var AddressService = (function () {
-    function AddressService() {
-    }
-    AddressService.prototype.findAddress = function (query) { return null; };
-    ;
-    AddressService.prototype.getCity = function () { return null; };
-    ;
-    AddressService.prototype.updateCity = function (cityInfo) { };
-    ;
-    __decorate([
-        meta_annotations_1.comment("\u67E5\u8BE2\u66F4\u51C6\u786E\u7684\u5730\u5740"),
-        meta_annotations_1.router('/findAddress'),
-        meta_annotations_1.method('GET'),
-        __param(0, meta_annotations_1.query())
-    ], AddressService.prototype, "findAddress");
-    __decorate([
-        meta_annotations_1.router('/get-city/:id', GetCityRouter),
-        meta_annotations_1.comment('查询城市信息'),
-        meta_annotations_1.get()
-    ], AddressService.prototype, "getCity");
-    __decorate([
-        meta_annotations_1.comment('更新城市'),
-        meta_annotations_1.router('/update-city/:id', UpdateCityRouter),
-        meta_annotations_1.post(),
-        __param(0, meta_annotations_1.body())
-    ], AddressService.prototype, "updateCity");
-    AddressService = __decorate([
-        meta_annotations_1.router("api/service/address"),
-        meta_annotations_1.comment("\u516C\u5171\u5730\u5740\u670D\u52A1\n\u63D0\u4F9B\u5BC4\u9001\u5730\u5740\u67E5\u8BE2\u670D\u52A1\n")
-    ], AddressService);
-    return AddressService;
+    return UserModel;
 }());
 //# sourceMappingURL=define.js.map
