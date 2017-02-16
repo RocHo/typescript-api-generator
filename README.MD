@@ -19,7 +19,7 @@ npm install reflect-metadata
 
 ```javascript
 import "reflect-metadata";
-import { comment, method ,array , router, query, body , post, get , outputMarkdown } from './meta-annotations';
+import { comment, method ,array , router,extend, query, body , post, get , outputMarkdown } from './meta-annotations';
 
 //此处放API定义，或者import其他文件
 //import './otherApi';
@@ -63,11 +63,21 @@ class AddressService{
 ---
 ### `@array( type : Function)`
 
-由于TypeScript的限制，如果定义数组类型，**必须**添加此标注。传入数组元素的类型。
+定义在属性上标明数组类型属性的元素类型。由于TypeScript的限制，如果定义数组类型，**必须**添加此标注。传入数组元素的类型。
 
 ```javascript
 @array(AddressDetailInfo)
 detailAddresses : AddressDetailInfo[];
+```
+
+---
+### `@extend( type : Function)`
+定义在class上标明当前类型扩展自什么类。由于TypeScript的限制，如果有继承类，**必须**添加此标注。传入基类的类型。
+
+```javascript
+@extend(CityDetailInfo)
+class CityInfo extends CityDetailInfo{
+}
 ```
 
 ---

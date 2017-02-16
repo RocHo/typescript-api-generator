@@ -1,5 +1,5 @@
 
-# <a id="AddressService"></a> AddressService
+# <a id="AddressService"></a> AddressService 
 `api/service/address`
 
 公共地址服务
@@ -75,7 +75,7 @@
 | `detail.cityMoreDetailInfo.x` | `Number` | x |
 | `detail.cityMoreDetailInfo.y` | `Number` | y |
 
-# <a id="FindAddressQuery"></a> FindAddressQuery
+# <a id="FindAddressQuery"></a> FindAddressQuery 
 
 
 
@@ -86,7 +86,7 @@
 | --- | --- | --- |
 | `address` | `String` | 用户输入的模糊地址信息 |
 
-# <a id="AddressDetailInfo"></a> AddressDetailInfo
+# <a id="AddressDetailInfo"></a> AddressDetailInfo 
 
 
 单条精确的地址信息
@@ -97,7 +97,7 @@
 | --- | --- | --- |
 | `address` | `String` | 精确地址 |
 
-# <a id="AddressDetailInfos"></a> AddressDetailInfos
+# <a id="AddressDetailInfos"></a> AddressDetailInfos 
 
 
 
@@ -109,7 +109,7 @@
 | `detailAddresses` | <span style="white-space: nowrap">[`Array<AddressDetailInfo>`](#AddressDetailInfo)</span> | 精确地址<br>    模糊查询返回的精确地址选项，提供给前台下拉可选项<br> |
 | `detailAddresses.address` | `String` | 精确地址 |
 
-# <a id="GetCityRouter"></a> GetCityRouter
+# <a id="GetCityRouter"></a> GetCityRouter 
 
 
 
@@ -120,7 +120,7 @@
 | --- | --- | --- |
 | `id` | `Number` | 城市名称 |
 
-# <a id="CityMoreDetailInfo"></a> CityMoreDetailInfo
+# <a id="CityMoreDetailInfo"></a> CityMoreDetailInfo 
 
 
 更详细的信息
@@ -132,7 +132,7 @@
 | `x` | `Number` | x |
 | `y` | `Number` | y |
 
-# <a id="CityDetailInfo"></a> CityDetailInfo
+# <a id="CityDetailInfo"></a> CityDetailInfo 
 
 
 城市详细信息
@@ -147,7 +147,7 @@
 | `cityMoreDetailInfo.x` | `Number` | x |
 | `cityMoreDetailInfo.y` | `Number` | y |
 
-# <a id="CityInfo"></a> CityInfo
+# <a id="CityInfo"></a> CityInfo  `@extend` <span style="white-space: nowrap">[`CityDetailInfo`](#CityDetailInfo)</span>
 
 
 城市信息
@@ -165,7 +165,7 @@
 | `detail.cityMoreDetailInfo.x` | `Number` | x |
 | `detail.cityMoreDetailInfo.y` | `Number` | y |
 
-# <a id="UpdateCityRouter"></a> UpdateCityRouter
+# <a id="UpdateCityRouter"></a> UpdateCityRouter 
 
 
 更新城市参数

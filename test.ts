@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { comment,array, method , router,query, body , post, get , outputMarkdown } from './meta-annotations';
+import { comment,array, method , router ,extend,query, body , post, get , outputMarkdown } from './meta-annotations';
 
 @comment()
 class FindAddressQuery{
@@ -49,6 +49,7 @@ class CityDetailInfo{
 }
 
 @comment('城市信息')
+@extend(CityDetailInfo)
 class CityInfo{
     @comment('城市id')
     id : number;

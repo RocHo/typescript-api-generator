@@ -29,6 +29,7 @@ function createMetaHandler(handlers) {
     return function (target, propertyKey, index) {
         if (typeof target === 'function') {
             var typeD = getType(target);
+            typeD.baseType = Reflect.getMetadata("design:basetype", target, propertyKey);
             handlers.handleType(typeD);
         }
         else {
@@ -144,6 +145,10 @@ function array(type) {
     return Reflect.metadata("design:elementtype", type);
 }
 exports.array = array;
+function extend(type) {
+    return Reflect.metadata("design:basetype", type);
+}
+exports.extend = extend;
 function getMetadatas() {
     return typesData;
 }
@@ -187,7 +192,7 @@ function typeTable(output, type, prefix, level) {
 }
 function outputType(output, type) {
     var v = type;
-    output.push("\n# <a id=\"" + getTypeName(v.type) + "\"></a> " + getTypeName(v.type) + "\n" + (v.router ? "`" + v.router.path + "`" : '') + "\n\n" + (v.comment || '') + "\n\n");
+    output.push("\n# <a id=\"" + getTypeName(v.type) + "\"></a> " + getTypeName(v.type) + " " + (v.baseType ? ' `@extend` ' + typeLink(v.baseType) : '') + "\n" + (v.router ? "`" + v.router.path + "`" : '') + "\n\n" + (v.comment || '') + "\n\n");
     var typeD = v;
     typeTable(output, v.type);
     if (v.methods && v.methods.size) {

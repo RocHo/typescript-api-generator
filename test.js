@@ -121,7 +121,8 @@ var CityInfo = (function () {
         __metadata('design:type', CityDetailInfo)
     ], CityInfo.prototype, "detail", void 0);
     CityInfo = __decorate([
-        meta_annotations_1.comment('城市信息'), 
+        meta_annotations_1.comment('城市信息'),
+        meta_annotations_1.extend(CityDetailInfo), 
         __metadata('design:paramtypes', [])
     ], CityInfo);
     return CityInfo;

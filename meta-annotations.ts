@@ -2,6 +2,7 @@ import "reflect-metadata";
 import fs = require('fs');
 
 interface TypeDefinition{
+    baseType: Function;
     router: {path: String, type: Function};
     comment : string;
     type : Function;
@@ -68,6 +69,7 @@ function createMetaHandler(handlers : {
         if(typeof target === 'function') // it's a type
         {
             let typeD = getType(target);
+            typeD.baseType = Reflect.getMetadata("design:basetype",target,propertyKey);
             handlers.handleType(typeD);
         }else{
             let type = target.constructor;
@@ -187,6 +189,10 @@ export function array(type :Function){
     return Reflect.metadata("design:elementtype",type);
 }
 
+export function extend(type : Function){
+    return Reflect.metadata("design:basetype",type);
+}
+
 export function getMetadatas(){
     return typesData;
 }
@@ -206,7 +212,7 @@ function isSimpleType(type : Function){
     return [Boolean,String,Number].indexOf(type) > -1;
 }
 
-function typeLink(type : Function ,et : Function){
+function typeLink(type : Function ,et? : Function){
     let tn = getTypeName(type,et);
     return `<span style="white-space: nowrap">[\`${tn}\`](#${getTypeName(et || type)})</span>`
 }
@@ -235,7 +241,7 @@ function outputType(output : string[], type : TypeDefinition){
     let v = type;
     output.push(
         `
-# <a id="${getTypeName(v.type)}"></a> ${getTypeName(v.type)}
+# <a id="${getTypeName(v.type)}"></a> ${getTypeName(v.type)} ${v.baseType ? ' `@extend` ' + typeLink(v.baseType) : ''}
 ${v.router ? "`" + v.router.path + "`" :''}
 
 ${v.comment || ''}
