@@ -151,7 +151,7 @@ class UserModel{
 此标记废除，直接使用TypeScript `extends`语法
 
 ---
-### `router( path : string , model? : Type)`
+### `@router( path : string , model? : Type)`
 
 定义当前服务和方法API的路由地址。在class和method上定义。`model`参数可选，用于定义带有参数的路由模型。如果同时在class和method上定义router，会合并显示。
 
@@ -167,7 +167,7 @@ class GetCityRouter{
 }
 ```
 ---
-###`post get method( m : string) `
+###`@post @get @method( m : string) `
 
 用于标注当前方法所代表的API使用的http method。定义在方法上。`post`和`get`是`method('POST')`和`method('GET')`的快捷方法。如果不指定默认是`GET`请求。
 
@@ -177,7 +177,7 @@ updateCity(cityInfo : CityInfo) {};
 ```
 ---
 
-### `query body`
+### `@query @body`
 
 标注方法的参数是从querystring来的，还是body内的。
 
