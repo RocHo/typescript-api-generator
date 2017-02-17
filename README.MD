@@ -94,6 +94,21 @@ class CallingService{
          */
         content : SmsContent,
     }) : SendSmsResult {return null;};
+
+    /**
+     * 获取用户电话号码
+     *
+     * @returns {null}
+     */
+    @router("/getUserPhoneNumber")
+    @get
+    getUserPhoneNumber(
+        /**
+         * 使用@router标记参数，可以内联定义类型，在方法上使用@router是无法定义内联类型的
+         */
+        @router user : {
+        name : string
+    }) : string { return null; }
 }
 
 /**
@@ -111,7 +126,10 @@ class SendSmsResult extends BaseResult{
      * 内联类型也可以支持数组类型，请注意最后的[]
      */
     detailInfomations : {
-        title : string,
+        /**
+         * 可以支持可选属性
+         */
+        title? : string,
         content : string,
         user : UserModel
     }[]
@@ -166,6 +184,17 @@ class GetCityRouter{
     id : number;
 }
 ```
+
+`@router`也可以定义在参数上，这样可以支持内联类型定义
+```javascript
+class AddressService{
+    @router('/get-city/:id')
+    getCity(@router req : {
+      id : number
+    }) : CityInfo {return null;};
+}
+```
+
 ---
 ###`@post @get @method( m : string) `
 
@@ -195,5 +224,3 @@ updateCity(@body cityInfo : CityInfo) {};
 - 现已支持内联嵌套类型。
 - 现已可以无序定义。
 - **还未开发完成** 由于decorators不能定义在内联和嵌套类型的属性上，所以如果需要在属性上添加decorator，可以写在注释里面。
-
-

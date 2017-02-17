@@ -6,7 +6,7 @@
 
 
 
-## sendSms `POST`
+## sendSms `GET`
 `api/service/calling/sendSms/:name`
 
 发送短信息请求
@@ -37,7 +37,7 @@
 | --- | --- | --- |
 | `index` | <span style="white-space: nowrap">`number`</span> |  |
 | `detailInfomations` | `inline[]` | 内联类型也可以支持数组类型，请注意最后的[] |
-| `detailInfomations.title` | <span style="white-space: nowrap">`string`</span> |  |
+| `detailInfomations.title` | <span style="white-space: nowrap">`string`</span> | 可以支持可选属性 |
 | `detailInfomations.content` | <span style="white-space: nowrap">`string`</span> |  |
 | `detailInfomations.user` | <span style="white-space: nowrap">[`UserModel`](#typeid-51)</span> |  |
 | `resultCode` | <span style="white-space: nowrap">`number`</span> | 返回结果<br>0 成功<br>-1 失败 |
@@ -57,7 +57,7 @@
 | --- | --- | --- |
 | `index` | <span style="white-space: nowrap">`number`</span> |  |
 | `detailInfomations` | `inline[]` | 内联类型也可以支持数组类型，请注意最后的[] |
-| `detailInfomations.title` | <span style="white-space: nowrap">`string`</span> |  |
+| `detailInfomations.title` | <span style="white-space: nowrap">`string`</span> | 可以支持可选属性 |
 | `detailInfomations.content` | <span style="white-space: nowrap">`string`</span> |  |
 | `detailInfomations.user` | <span style="white-space: nowrap">[`UserModel`](#typeid-51)</span> |  |
 | `resultCode` | <span style="white-space: nowrap">`number`</span> | 返回结果<br>0 成功<br>-1 失败 |

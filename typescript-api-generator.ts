@@ -49,6 +49,14 @@ function getDecorators(d : ts.Node){
             }
         });
     }
+    if(d && d.symbol){
+        (d.symbol.getJsDocTags() || []).forEach(function(tag){
+            getDefault(dm,tag.name,()=>[]);
+
+            /[(,]\s*("(\\\"|[^"])*?"|'(\\\'|[^'])*?'|true|false|\d+(\.\d+)?|[_\A-\Z\a-\z][_\A-\Z\a-\z\d]*)\s*(?=[,)])/g
+
+        });
+    }
     return dm;
 }
 
@@ -127,7 +135,8 @@ function getType(checker, t : Node){
                                 name : m.getName(),
                                 comments : ts.displayPartsToString(m.getDocumentationComment()),
                                 decorators : getDecorators(p),
-                                type : getType(checker,p.type)
+                                type : getType(checker,p.type),
+                                optional : !!p.questionToken
                             }
                         });
                         break;
@@ -198,7 +207,7 @@ function typeTable(output : string[],type,prefix : String = ''){
         }
 
 
-        output.push(`| \`${prefix + p.name}\` | ${ p.type.anonymous ? `\`${p.type.name}\`` :typeLinks(p.type)} | ${(p.comments).replace(/[\n\r]/g,'<br>')} |`);
+        output.push(`| \`${prefix + p.name + (p.optional ? '?' : '')}\` | ${ p.type.anonymous ? `\`${p.type.name}\`` :typeLinks(p.type)} | ${(p.comments).replace(/[\n\r]/g,'<br>')} |`);
 
         if(p.type.anonymous){
             typeTable(output,p.type.isArray ? p.type.elementType : p.type, (prefix || '')  + p.name + '.');
@@ -237,7 +246,7 @@ ${m.comments}
                 typeTable(output,routerType);
             }
             m.params.forEach(function(m,i){
-                output.push(`### ${m.decorators.query ? 'query' : 'body'} ${typeLinks(m.type)}
+                output.push(`### ${m.decorators.query ? 'query' : (m.decorators.router ? '路由参数' : 'body')} ${typeLinks(m.type)}
 ${m.comments}
 `);
                 typeTable(output,m.type);

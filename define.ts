@@ -41,6 +41,21 @@ class CallingService{
          */
         content : SmsContent,
     }) : SendSmsResult {return null;};
+
+    /**
+     * 获取用户电话号码
+     *
+     * @returns {null}
+     */
+    @router("/getUserPhoneNumber")
+    @get
+    getUserPhoneNumber(
+        /**
+         * 使用@router标记参数，可以内联定义类型，在方法上使用@router是无法定义内联类型的
+         */
+        @router user : {
+        name : string
+    }) : string { return null; }
 }
 
 /**
@@ -58,7 +73,10 @@ class SendSmsResult extends BaseResult{
      * 内联类型也可以支持数组类型，请注意最后的[]
      */
     detailInfomations : {
-        title : string,
+        /**
+         * 可以支持可选属性
+         */
+        title? : string,
         content : string,
         user : UserModel
     }[]

@@ -45,6 +45,16 @@ var CallingService = (function () {
                  * 支持内联匿名类，可以包含任意层级参数
                  */ req) { return null; };
     ;
+    /**
+     * 获取用户电话号码
+     *
+     * @returns {null}
+     */
+    CallingService.prototype.getUserPhoneNumber = function (
+        /**
+         * 使用@router标记参数，可以内联定义类型，在方法上使用@router是无法定义内联类型的
+         */
+        user) { return null; };
     __decorate([
         meta_annotations_1.router('/sendSms/:name', UserModel),
         /**
@@ -56,6 +66,14 @@ var CallingService = (function () {
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', SendSmsResult)
     ], CallingService.prototype, "sendSms", null);
+    __decorate([
+        meta_annotations_1.router("/getUserPhoneNumber"),
+        meta_annotations_1.get,
+        __param(0, meta_annotations_1.router), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object]), 
+        __metadata('design:returntype', String)
+    ], CallingService.prototype, "getUserPhoneNumber", null);
     CallingService = __decorate([
         meta_annotations_1.router("api/service/calling"), 
         __metadata('design:paramtypes', [])
