@@ -1,5 +1,5 @@
 
-# <a id='typeid-41'></a> CallingService 
+# <a id='typeid-41'></a> <a name='typeid-41'></a> CallingService 
 
 
 电话短信服务
@@ -97,7 +97,7 @@
 ---
 
 
-# <a id='typeid-43'></a> SendSmsResult  `extends` [`BaseResult`](#typeid-50)
+# <a id='typeid-43'></a> <a name='typeid-43'></a> SendSmsResult  `extends` [`BaseResult`](#typeid-50)
 
 
 可以通过extends关键字进行继承
@@ -133,7 +133,7 @@
 ---
 
 
-# <a id='typeid-47'></a> SmsContent 
+# <a id='typeid-47'></a> <a name='typeid-47'></a> SmsContent 
 
 
 类型的定义可以不按照顺序来
@@ -152,7 +152,7 @@
 ---
 
 
-# <a id='typeid-50'></a> BaseResult 
+# <a id='typeid-50'></a> <a name='typeid-50'></a> BaseResult 
 
 
 通用请求结果
@@ -173,7 +173,7 @@
 ---
 
 
-# <a id='typeid-55'></a> UserModel 
+# <a id='typeid-55'></a> <a name='typeid-55'></a> UserModel 
 
 
 

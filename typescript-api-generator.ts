@@ -266,7 +266,7 @@ function outputType(output : string[], type){
     let v = type;
     output.push(
         `
-# <a id='typeid-${v.id}'></a> ${v.name} ${v.baseTypes && v.baseTypes.length ? ' `extends` ' + typeLinks(...v.baseTypes) : ''}
+# <a id='typeid-${v.id}'></a> <a name='typeid-${v.id}'></a> ${v.name} ${v.baseTypes && v.baseTypes.length ? ' `extends` ' + typeLinks(...v.baseTypes) : ''}
 ${v.router ? '`' + v.router.path + '`' :''}
 
 ${v.comments}

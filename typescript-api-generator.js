@@ -244,7 +244,7 @@ function outputType(output, type) {
     if (type.anonymous || type.intrinsicName || type.isArray)
         return;
     var v = type;
-    output.push("\n# <a id='typeid-" + v.id + "'></a> " + v.name + " " + (v.baseTypes && v.baseTypes.length ? ' `extends` ' + typeLinks.apply(void 0, v.baseTypes) : '') + "\n" + (v.router ? '`' + v.router.path + '`' : '') + "\n\n" + v.comments + "\n\n");
+    output.push("\n# <a id='typeid-" + v.id + "'></a> <a name='typeid-" + v.id + "'></a> " + v.name + " " + (v.baseTypes && v.baseTypes.length ? ' `extends` ' + typeLinks.apply(void 0, v.baseTypes) : '') + "\n" + (v.router ? '`' + v.router.path + '`' : '') + "\n\n" + v.comments + "\n\n");
     var typeD = v;
     typeTable(output, v);
     outputTypeJson(output, v);
