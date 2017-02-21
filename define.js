@@ -16,7 +16,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var meta_annotations_1 = require('./meta-annotations');
+var api_annotations_1 = require('./api-annotations');
 /**
  * 电话短信服务
  */
@@ -29,7 +29,6 @@ var CallingService = (function () {
      * 定义方法的注释，可以写多行，但是截止到结尾，或第一个jsdoc的tag之前
      * 此注释必须写在方法的decorators之前，否则将无法获取到
      *
-     * @router('/sendSms/:name') 这是另一种定义decorator的方式，但现在还未完成支持
      *
      * 这里的注释不会被采集到
      *
@@ -56,26 +55,27 @@ var CallingService = (function () {
          */
         user) { return null; };
     __decorate([
-        meta_annotations_1.router('/sendSms/:name', UserModel),
+        api_annotations_1.router('/sendSms/:name', UserModel),
         /**
                  * 请求参数的内联注释，会合并到前面param的注释里
                  *
                  * 支持内联匿名类，可以包含任意层级参数
-                 */ __param(0, meta_annotations_1.body), 
+                 */ __param(0, api_annotations_1.body), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', SendSmsResult)
     ], CallingService.prototype, "sendSms", null);
     __decorate([
-        meta_annotations_1.router("/getUserPhoneNumber"),
-        meta_annotations_1.get,
-        __param(0, meta_annotations_1.router), 
+        api_annotations_1.router("/getUserPhoneNumber"),
+        api_annotations_1.get,
+        api_annotations_1.mocker("$rm.text(13)"),
+        __param(0, api_annotations_1.router), 
         __metadata('design:type', Function), 
         __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', String)
     ], CallingService.prototype, "getUserPhoneNumber", null);
     CallingService = __decorate([
-        meta_annotations_1.router("api/service/calling"), 
+        api_annotations_1.router("api/service/calling"), 
         __metadata('design:paramtypes', [])
     ], CallingService);
     return CallingService;
@@ -104,11 +104,23 @@ var SendSmsResult = (function (_super) {
 var BaseResult = (function () {
     function BaseResult() {
     }
+    __decorate([
+        api_annotations_1.mocker("$rm.weightedChoose(1,-1,3,0)"), 
+        __metadata('design:type', Number)
+    ], BaseResult.prototype, "resultCode", void 0);
+    __decorate([
+        api_annotations_1.mocker("\"error\""), 
+        __metadata('design:type', String)
+    ], BaseResult.prototype, "errorMessage", void 0);
     return BaseResult;
 }());
 var UserModel = (function () {
     function UserModel() {
     }
+    __decorate([
+        api_annotations_1.mocker("$rm.text($rm.range(3,5))"), 
+        __metadata('design:type', String)
+    ], UserModel.prototype, "name", void 0);
     return UserModel;
 }());
 //# sourceMappingURL=define.js.map
