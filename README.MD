@@ -39,10 +39,10 @@ import { router, method , post, get, query, body , mocker } from './api-annotati
 tsc --target ES5 --experimentalDecorators --emitDecoratorMetadata my-apis.ts
 ```
 
-通过node执行js完成API输出。一个参数是定义的API文件，第二个参数是输出的markdown位置，第三个参数是Mock数据服务的代码，第四个参数是类型定义元数据文件。几个参数都是可选的。
+通过node执行js完成API输出。`typescript-api-generator.js`是项目中用于分析TypeScript文件的主程序。`my-api.ts`是需要生成文档定义的源API文件，`my-api.md`是输出的markdown位置，`my-api-mock.js`是Mock数据服务的代码，`my-api-meta.json`是分析api文件后生成的类型定义元数据文件，可用作其他目的。几个参数都是可选的。
 
 ```bash
-node typescript-api-generator.js my-api.js my-api.md my-api-mock.js my-api-meta.json
+node typescript-api-generator.js my-api.ts my-api.md my-api-mock.js my-api-meta.json
 ```
 
 
